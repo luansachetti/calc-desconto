@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculadora de Desconto</title>    
+</head>
+<style>    
+    body {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        overflow: hidden;        
+    }
+</style>
+<body>
+    <h1>Calculadora de Desconto</h1>
+
+    <label for="totalNota">Total da Nota:</label>
+    <input type="number" id="totalNota" onkeypress="handleKeyPress(event)">
+    <br>
+
+    <label for="desconto">Desconto:</label>
+    <input type="number" id="desconto" onkeypress="handleKeyPress(event)">
+    <br>
+
+    <label for="valorItem">Valor do Item:</label>
+    <input type="number" id="valorItem" onkeypress="handleKeyPress(event)">
+    <br>
+
+    <label for="qntItem">Quantidade:</label>
+    <input type="number" id="qntItem" onkeypress="handleKeyPress(event)">
+    <br>
+
+    <button onclick="calcularDesconto()">Calcular</button>
+    <button onclick="zerarCampos()">Zerar</button>
+
+    <p id="resultado"></p>
+
+    <script>
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                const inputs = document.querySelectorAll('input[type="number"]');
+                const currentIndex = Array.from(inputs).indexOf(event.target);
+                if (currentIndex < inputs.length - 1) {
+                    inputs[currentIndex + 1].focus();
+                }
+                if (event.target.id === 'qntItem') {
+                    calcularDesconto();
+                }
+            }
+        }
+
+        function calcularDesconto() {
+            const totalNota = parseFloat(document.getElementById("totalNota").value);
+            const desconto = parseFloat(document.getElementById("desconto").value);
+            const valorItem = parseFloat(document.getElementById("valorItem").value);
+            const qntItem = parseInt(document.getElementById("qntItem").value);
+
+            const valorComDesc = (valorItem / totalNota * desconto - valorItem) / qntItem;
+
+            document.getElementById("resultado").textContent = "Valor c/ Desc.: " + (-valorComDesc).toFixed(2);
+        }
+
+        function zerarCampos() {
+            document.getElementById("totalNota").value = "";
+            document.getElementById("desconto").value = "";
+            document.getElementById("valorItem").value = "";
+            document.getElementById("qntItem").value = "";
+            document.getElementById("resultado").textContent = "";
+        }
+    </script>
+</body>
+</html>
